@@ -42,3 +42,15 @@ In the project directory, you can run:
 
 ### `yarn add antd`
 安装 antd ui库
+
+### `yarn add babel-plugin-import`
+修改webpack
+```sh
+['import', {
+        libraryName: 'antd',
+        style: true
+      }],
+```
+
+less@3.x 有问题
+需要修改 添加 `{ loader: 'less-loader', options: { javascriptEnabled: true } }`
