@@ -1,10 +1,10 @@
 import React from 'react'
 
-export default class App extends React.Component {
+export default class NoMatch extends React.Component {
   render() {
     return (
       <div>
-        {this.props.children}
+        404页面
       </div>
     )
   }
