@@ -17,33 +17,37 @@ import FormRegister from './pages/form/register'
 import TableBasic from './pages/table/basic'
 import TableHigh from './pages/table/high'
 
+import City from './pages/city/index'
+
 export default class Router extends React.Component {
   render() {
     return (
       <HashRouter>
-          <App>
-            <Route path='/' render={() =>
-              <Admin>
-                <Switch>
-                  <Route path='/ui/buttons' component={Buttons}/>
-                  <Route path='/ui/modals' component={Modals}/>
-                  <Route path='/ui/loadings' component={Loadings}/>
-                  <Route path='/ui/notification' component={Notification}/>
-                  <Route path='/ui/messages' component={Messages}/>
-                  <Route path='/ui/tabs' component={Tabs}/>
-                  <Route path='/ui/gallery' component={Gallery}/>
-                  <Route path='/ui/carousel' component={Carousel}/>
-                  <Route path='/form/login' component={FormLogin}/>
-                  <Route path='/form/reg' component={FormRegister}/>
-                  <Route path='/table/basic' component={TableBasic}/>
-                  <Route path='/table/high' component={TableHigh}/>
+        <App>
+          <Route path='/' render={() =>
+            <Admin>
+              <Switch>
+                <Route path='/city' component={City}/>
+                <Route path='/ui/buttons' component={Buttons}/>
+                <Route path='/ui/modals' component={Modals}/>
+                <Route path='/ui/loadings' component={Loadings}/>
+                <Route path='/ui/notification' component={Notification}/>
+                <Route path='/ui/messages' component={Messages}/>
+                <Route path='/ui/tabs' component={Tabs}/>
+                <Route path='/ui/gallery' component={Gallery}/>
+                <Route path='/ui/carousel' component={Carousel}/>
+                <Route path='/form/login' component={FormLogin}/>
+                <Route path='/form/reg' component={FormRegister}/>
+                <Route path='/table/basic' component={TableBasic}/>
+                <Route path='/table/high' component={TableHigh}/>
 
-                  <Route component={NoMatch}/>
-                </Switch>
-              </Admin>
-            }/>
-            <Route path='/login' component={Login}/>
-          </App>
+                <Route component={NoMatch}/>
+              </Switch>
+            </Admin>
+          }/>
+
+          <Route path='/login' component={Login}/>
+        </App>
       </HashRouter>
     )
   }
