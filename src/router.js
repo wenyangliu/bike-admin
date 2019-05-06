@@ -17,7 +17,10 @@ import FormRegister from './pages/form/register'
 import TableBasic from './pages/table/basic'
 import TableHigh from './pages/table/high'
 
+import Home from './pages/home/index'
 import City from './pages/city/index'
+import Order from './pages/order/index'
+import User from './pages/user/index'
 
 export default class Router extends React.Component {
   render() {
@@ -27,7 +30,10 @@ export default class Router extends React.Component {
           <Route path='/' render={() =>
             <Admin>
               <Switch>
+                <Route path='/home' component={Home}/>
                 <Route path='/city' component={City}/>
+                <Route path='/order' component={Order}/>
+                <Route path='/user' component={User}/>
                 <Route path='/ui/buttons' component={Buttons}/>
                 <Route path='/ui/modals' component={Modals}/>
                 <Route path='/ui/loadings' component={Loadings}/>
