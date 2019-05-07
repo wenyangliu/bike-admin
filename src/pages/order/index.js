@@ -1,16 +1,22 @@
 import React from 'react'
-import {Card, Button, Table, Modal, message} from 'antd'
+import {Card, Button, Table, Modal} from 'antd'
 import CardFilter from './filter'
 import utils from '../../utils'
 import axios from '../../axios'
-import CityForm from './form'
-
 
 export default class Order extends React.Component {
   state = {list: [], isShowOpenCity: false}
   params = {page: 1}
   getOrderDetail = () => {
-
+    const item = this.state.selectedItem
+    if (!item) {
+      Modal.warn({
+        title: '提示',
+        content: '请选择一条订单'
+      })
+    } else {
+      window.open(`/#/common/order/detail/${item.id}`, '_blank')
+    }
   }
   closeOrder = () => {
 
@@ -18,7 +24,8 @@ export default class Order extends React.Component {
   onRowClick = (record, index) => {
     console.log(record, index)
     this.setState({
-      selectedRowKeys: [index]
+      selectedRowKeys: [index],
+      selectedItem: record
     })
   }
   componentWillMount() {

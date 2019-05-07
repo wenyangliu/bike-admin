@@ -1,11 +1,24 @@
 @import "../../style/default";
+
 .header {
-  background-color: #ffffff;
+  background-color: @colorM;
   .header-top {
     height: 60px;
     line-height: 60px;
     padding: 0 20px;
     text-align: right;
+    .logo {
+      line-height: 60px;
+      text-align: left;
+      font-size: 18px;
+      img {
+        height: 40px;
+        vertical-align: middle;
+      }
+      span {
+        margin-left: 5px;
+      }
+    }
     a {
       margin-left: 40px;
     }
@@ -31,19 +44,26 @@
     }
     .breadcrumb-right {
       text-align: right;
-      .date{
+      .date {
         margin-right: 10px;
         vertical-align: middle;
       }
-      .weather-img{
-        img{
+      .weather-img {
+        img {
           height: 15px;
         }
       }
-      .weather-detail{
+      .weather-detail {
         margin-left: 5px;
         vertical-align: middle;
       }
     }
+  }
+}
+
+.simple-page {
+  .header-top {
+    background: #1890ff;
+    color: @colorM;
   }
 }

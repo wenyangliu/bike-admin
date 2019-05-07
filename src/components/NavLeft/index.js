@@ -30,7 +30,7 @@ export default class NavLeft extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="nav_left">
         <div className='logo'>
           <img src="/assets/logo-ant.svg" alt=""/>
           <h2>Bike Admin</h2>
