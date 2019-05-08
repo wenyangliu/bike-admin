@@ -22,6 +22,9 @@ import City from './pages/city/index'
 import Order from './pages/order/index'
 import OrderDetail from './pages/order/detail'
 import User from './pages/user/index'
+import Line from './pages/echarts/line/index'
+import Bar from './pages/echarts/bar/index'
+import Pie from './pages/echarts/pie/index'
 
 import Common from './Common'
 
@@ -57,6 +60,10 @@ export default class Router extends React.Component {
                   <Route path='/form/reg' component={FormRegister}/>
                   <Route path='/table/basic' component={TableBasic}/>
                   <Route path='/table/high' component={TableHigh}/>
+
+                  <Route path='/charts/line' component={Line}/>
+                  <Route path='/charts/bar' component={Bar}/>
+                  <Route path='/charts/pie' component={Pie}/>
 
                   <Route component={NoMatch}/>
                 </Switch>

@@ -54,3 +54,9 @@ In the project directory, you can run:
 
 less@3.x 有问题
 需要修改 添加 `{ loader: 'less-loader', options: { javascriptEnabled: true } }`
+
+### 使用百度地图
+public 目录下 index.html 直接引入 script
+
+### 使用echarts
+`yarn add echarts echarts-for-react`
