@@ -25,6 +25,7 @@ import User from './pages/user/index'
 import Line from './pages/echarts/line/index'
 import Bar from './pages/echarts/bar/index'
 import Pie from './pages/echarts/pie/index'
+import Rich from './pages/rich/index'
 
 import Common from './Common'
 
@@ -64,6 +65,7 @@ export default class Router extends React.Component {
                   <Route path='/charts/line' component={Line}/>
                   <Route path='/charts/bar' component={Bar}/>
                   <Route path='/charts/pie' component={Pie}/>
+                  <Route path='/rich' component={Rich}/>
 
                   <Route component={NoMatch}/>
                 </Switch>

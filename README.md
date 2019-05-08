@@ -60,3 +60,6 @@ public 目录下 index.html 直接引入 script
 
 ### 使用echarts
 `yarn add echarts echarts-for-react`
+
+### 使用富文本
+`yarn add braft-editor`
