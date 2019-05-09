@@ -1,10 +1,11 @@
 import React from 'react'
 import {Card, Button, Table, Modal, message} from 'antd'
-import CardFilter from './filter'
 import utils from '../../utils'
 import axios from '../../axios'
 import CityForm from './form'
-
+import BaseForm from '../../components/BaseForm'
+import {formList} from './filterList'
+import {columns} from './cloumns'
 
 export default class City extends React.Component {
   state = {list: [], isShowOpenCity: false}
@@ -13,6 +14,10 @@ export default class City extends React.Component {
     this.setState({
       isShowOpenCity: true
     })
+  }
+  handleFilter = (params) => {
+    this.params = {...params, ...this.params}
+    this.requestList()
   }
   handleSubmit = () => {
     const cityInfo = this.formRef.props.form.getFieldsValue()
@@ -47,7 +52,7 @@ export default class City extends React.Component {
     axios.ajax({
       url: '/open_city',
       data: {
-        params: this.params.page
+        params: this.params
       }
     }).then(res => {
       let list = res.result.list.map((item, index) => {
@@ -65,50 +70,10 @@ export default class City extends React.Component {
   }
 
   render() {
-    const columns = [
-      {
-        title: '城市ID',
-        dataIndex: 'id'
-      }, {
-        title: '城市名称',
-        dataIndex: 'name'
-      }, {
-        title: '用车模式',
-        dataIndex: 'mode',
-        render: (mode) => mode === 1 ? '停车点' : '禁停区'
-      },
-      {
-        title: '营运模式',
-        dataIndex: 'op_mode',
-        render: (op_mode) => op_mode === 1 ? '自营' : '加盟'
-      },
-      {
-        title: '授权加盟商',
-        dataIndex: 'franchisee_name'
-      }, {
-        title: '城市管理员',
-        dataIndex: 'city_admins',
-        render: (arr) => {
-          return arr.map((item) => {
-            return item.user_name;
-          }).join(',')
-        }
-      }, {
-        title: '城市开通时间',
-        dataIndex: 'open_time'
-      }, {
-        title: '操作时间',
-        dataIndex: 'update_time',
-        render: utils.formateDate
-      }, {
-        title: '操作人',
-        dataIndex: 'sys_user_name'
-      }
-    ]
     return (
       <div>
         <Card>
-          <CardFilter/>
+          <BaseForm formList={formList} filterSubmit={this.handleFilter}/>
         </Card>
         <Card style={{marginTop: 10}}>
           <Button type="primary" onClick={this.handleOpenCity}>开通城市</Button>

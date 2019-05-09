@@ -1,4 +1,7 @@
 import moment from 'moment'
+import React from 'react'
+import { Select } from 'antd'
+const { Option } = Select
 
 // 时间转换
 function formateDate() {
@@ -19,10 +22,20 @@ function pagination(data, callback) {
     },
     showQuickJumper: true
   }
+}
 
+// 下拉框
+function getOptionList(list) {
+  if (!list) return
+  let options = []
+  list.map(it => {
+    options.push(<Option value={it.id} key={it.id}>{it.name}</Option>)
+  })
+  return options
 }
 
 export default {
   formateDate,
-  pagination
+  pagination,
+  getOptionList
 }

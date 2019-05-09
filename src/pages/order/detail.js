@@ -112,7 +112,7 @@ export default class OrderDetail extends React.Component {
             <ul className="detail-form">
               <li>
                 <span className="detail-form-left">用车模式</span>
-                <span className="detail-form-content">{info.mode == 1 ? '服务区' : '停车点'}</span>
+                <span className="detail-form-content">{info.mode === 1 ? '服务区' : '停车点'}</span>
               </li>
               <li>
                 <span className="detail-form-left">订单编号</span>

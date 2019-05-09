@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row, Col} from 'antd'
+import {Row, Col, Modal} from 'antd'
 import './index.less'
 import utils from '../../utils'
 import axios from '../../axios'
@@ -8,7 +8,8 @@ import config from '../../config'
 export default class Header extends React.Component {
   componentWillMount() {
     this.setState({
-      userName: '文道诗洋'
+      userName: '文道诗洋',
+      isExist: false
     })
     setInterval(() => {
       let sysTime = utils.formateDate()
@@ -37,6 +38,14 @@ export default class Header extends React.Component {
       }
     })
   }
+  handleExist = () => {
+    Modal.confirm({
+      content: '是否确认退出系统',
+      onOk() {
+        window.location.href = '/#/login/'
+      }
+    })
+  }
 
   render() {
     const menuType = this.props.menuType
@@ -53,7 +62,7 @@ export default class Header extends React.Component {
 
           <Col span={menuType ? 18 : 24}>
             <span>欢迎，{this.state.userName}</span>
-            <a href="#" style={{color: 'red'}}>退出</a>
+            <a href="#" style={{color: 'red'}} onClick={this.handleExist}>退出</a>
           </Col>
         </Row>
         {
@@ -69,7 +78,6 @@ export default class Header extends React.Component {
               </Col>
             </Row>
         }
-
       </div>
     )
   }
