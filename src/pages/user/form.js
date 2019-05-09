@@ -1,65 +1,87 @@
 import React from 'react'
-import { Form, Select, Radio } from 'antd'
+import { Form, Select, Radio, Input, DatePicker } from 'antd'
+import moment from 'moment'
 const FormItem = Form.Item
 const {Option} = Select
+const RadioGroup = Radio.Group
 
-class CityForm extends React.Component{
+class UserForm extends React.Component{
 
   render(){
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol:{
-        span:5
+        span: 5
       },
       wrapperCol:{
-        span:19
+        span: 16
       }
     }
+    const userInfo = this.props.userInfo || {}
+    const type = this.props.type
     return (
       <Form layout="horizontal" {...formItemLayout}>
-        <FormItem label="选择城市">
+        <FormItem label="姓名">
           {
-            getFieldDecorator('city_id',{
-              initialValue:'1'
-            })(
-              <Select style={{ width: 100 }}>
-                <Option value="">全部</Option>
-                <Option value="1">北京市</Option>
-                <Option value="2">天津市</Option>
+            userInfo && type === 'detail' ? userInfo.name :
+            getFieldDecorator('name', {
+              initialValue: userInfo.name
+            }) (
+              <Input type="text" placeholder="请输入姓名"/>
+            )
+          }
+        </FormItem>
+        <FormItem label="性别">
+          {
+            userInfo && type === 'detail' ? userInfo.sex :
+            getFieldDecorator('sex', {
+              initialValue: userInfo.sex
+            }) (
+              <RadioGroup>
+                <Radio value={1}>男</Radio>
+                <Radio value={2}>女</Radio>
+              </RadioGroup>
+            )
+          }
+        </FormItem>
+        <FormItem label="状态">
+          {
+            userInfo && type === 'detail' ? userInfo.status :
+            getFieldDecorator('status', {
+              initialValue: userInfo.status
+            }) (
+              <Select>
+                <Option value={1}>咸鱼一条</Option>
+                <Option value={2}>风华浪子</Option>
+                <Option value={3}>北大才子一枚</Option>
+                <Option value={4}>百度FE</Option>
+                <Option value={5}>创业者</Option>
               </Select>
             )
           }
         </FormItem>
-
-        <FormItem label="营运模式">
+        <FormItem label="生日">
           {
-            getFieldDecorator('op_mode',{
-              initialValue:'1'
-            })(
-              <Radio.Group>
-                <Radio value="1">自营</Radio>
-                <Radio value="2">加盟</Radio>
-              </Radio.Group>
+            userInfo && type === 'detail' ? userInfo.birthday :
+            getFieldDecorator('birthday', {
+              initialValue: moment(userInfo.birthday)
+            }) (
+              <DatePicker />
             )
           }
         </FormItem>
-
-        <FormItem label="用车模式">
+        <FormItem label="联系地址">
           {
-            getFieldDecorator('mode',{
-              initialValue:'1'
-            })(
-              <Radio.Group>
-                <Radio value="1">指定停车点模式</Radio>
-                <Radio value="2">禁停区模式</Radio>
-              </Radio.Group>
+            userInfo && type === 'detail' ? userInfo.address :
+            getFieldDecorator('address', {
+              initialValue: userInfo.address
+            }) (
+              <Input.TextArea rows={3} placeholder="请输入联系地址" />
             )
           }
         </FormItem>
-
       </Form>
     );
   }
 }
-CityForm = Form.create({})(CityForm);
-export default CityForm
+export default Form.create({})(UserForm)

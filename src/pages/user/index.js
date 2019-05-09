@@ -1,32 +1,87 @@
 import React from 'react'
-import {Card, Button, Table, Modal, message} from 'antd'
+import {Card, Button, Table, Modal} from 'antd'
 import CardFilter from './filter'
 import utils from '../../utils'
 import axios from '../../axios'
-import CityForm from './form'
+import UserForm from './form'
 
 
 export default class User extends React.Component {
-  state = {list: [], isShowOpenCity: false}
+  state = {list: [], visible: false}
   params = {page: 1}
-  createUser = () => {
-
+  handleOperator = (type) => {
+    const _this = this
+    const item = this.state.selectedItem
+    console.log(item)
+    if (type === 'create') {
+      this.setState({
+        title: '创建员工',
+        type,
+        visible: true
+      })
+    } else if (['edit', 'detail'].includes(type)) {
+      if (!item) {
+        Modal.info({
+          title: '信息',
+          content: '请选择一个用户'
+        })
+        return
+      }
+      this.setState({
+        title: type === 'edit' ? '编辑用户' : '查看详情',
+        type,
+        visible: true,
+        userInfo: item
+      })
+    } else if (type === 'delete') {
+      if (!item) {
+        Modal.info({
+          title: '信息',
+          content: '请选择一个用户'
+        })
+        return
+      }
+      Modal.confirm({
+        title: '提示',
+        content: '确认要删除吗',
+        onOk() {
+          axios.ajax({
+            url: '/user/delete',
+            method: 'delete',
+            data: {params: {id: item.id}}
+          }).then(res => {
+            _this.requestList()
+          })
+        }
+      })
+    }
   }
-  editUser = () => {
 
+  handleSubmit = () => {
+    const type = this.state.type
+    const data = this.userForm.props.form.getFieldsValue()
+    axios.ajax({
+      url: type === 'create' ? '/user/add' : '/user/patch',
+      method: type === 'create' ? 'post' : 'patch',
+      data: {
+        params: {...data}
+      }
+    }).then(res => {
+      this.setState({
+        visible: false
+      })
+      this.requestList()
+    })
   }
-  getUser = () => {
 
-  }
-  deleteUser = () => {
-
-  }
   onRowClick = (record, index) => {
     console.log(record, index)
     this.setState({
-      selectedRowKeys: [index]
+      selectedRowKeys: [index],
+      selectedItem: record
     })
   }
+
   componentWillMount() {
     this.requestList()
   }
@@ -34,7 +89,7 @@ export default class User extends React.Component {
   requestList = () => {
     let _this = this
     axios.ajax({
-      url: '/order/list',
+      url: '/user/list',
       data: {
         params: this.params.page
       }
@@ -57,43 +112,44 @@ export default class User extends React.Component {
     const columns = [
       {
         title: 'id',
-        dataIndex: 'order_sn'
+        dataIndex: 'id'
       }, {
         title: '用户名',
-        dataIndex: 'bike_sn'
+        dataIndex: 'name'
       }, {
         title: '性别',
-        dataIndex: 'user_name'
+        dataIndex: 'sex'
       },
       {
         title: '状态',
-        dataIndex: 'mobile'
+        dataIndex: 'status'
       },
       {
         title: '爱好',
-        dataIndex: 'distance'
+        dataIndex: 'hobby'
       }, {
         title: '生日',
-        dataIndex: 'total_time'
+        dataIndex: 'birthday'
       }, {
         title: '联系地址',
-        dataIndex: 'status',
+        dataIndex: 'address',
       }
     ]
     const rowSelection = {
       type: 'radio',
       selectedRowKeys: this.state.selectedRowKeys
     }
+
     return (
       <div>
         <Card>
           <CardFilter/>
         </Card>
         <Card style={{marginTop: 10}}>
-          <Button style={{marginRight: 10}} type="primary" onClick={this.createUser}>创建员工</Button>
-          <Button style={{marginRight: 10}} type="primary" onClick={this.editUser}>编辑员工</Button>
-          <Button style={{marginRight: 10}} type="primary" onClick={this.getUser}>员工详情</Button>
-          <Button type="danger" onClick={this.deleteUser}>删除员工</Button>
+          <Button style={{marginRight: 10}} type="primary" onClick={() => this.handleOperator('create')}>创建员工</Button>
+          <Button style={{marginRight: 10}} type="primary" onClick={() => this.handleOperator('edit')}>编辑员工</Button>
+          <Button style={{marginRight: 10}} type="primary" onClick={() => this.handleOperator('detail')}>员工详情</Button>
+          <Button type="danger" onClick={() => this.handleOperator('delete')}>删除员工</Button>
         </Card>
         <div className="content-wrap">
           <Table
@@ -111,6 +167,24 @@ export default class User extends React.Component {
             }}
           />
         </div>
+
+
+        <Modal
+          title={this.state.title}
+          visible={this.state.visible}
+          width={800}
+          onCancel={() => {
+            this.userForm.props.form.resetFields()
+            this.setState({
+              visible: false,
+              userInfo: {}
+            })
+          }}
+          onOk={this.handleSubmit}
+        >
+          <UserForm userInfo={this.state.userInfo} type={this.state.type}
+                    wrappedComponentRef={(inst) => this.userForm = inst}/>
+        </Modal>
       </div>
     )
   }
