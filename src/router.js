@@ -27,6 +27,7 @@ import Bar from './pages/echarts/bar/index'
 import Pie from './pages/echarts/pie/index'
 import Rich from './pages/rich/index'
 import Permission from './pages/permission/index'
+import BikeMap from './pages/map/bikeMap'
 
 import Common from './Common'
 
@@ -68,6 +69,7 @@ export default class Router extends React.Component {
                   <Route path='/charts/pie' component={Pie}/>
                   <Route path='/rich' component={Rich}/>
                   <Route path='/permission' component={Permission}/>
+                  <Route path='/bikeMap' component={BikeMap}/>
 
                   <Route component={NoMatch}/>
                 </Switch>
