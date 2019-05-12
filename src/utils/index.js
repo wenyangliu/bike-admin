@@ -4,7 +4,8 @@ import { Select } from 'antd'
 const { Option } = Select
 
 // 时间转换
-function formateDate() {
+function formateDate(time) {
+  if (time) return moment(time).format('YYYY-MM-DD HH:mm:ss')
   return moment().format('YYYY-MM-DD HH:mm:ss')
 }
 

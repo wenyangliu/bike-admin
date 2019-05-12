@@ -1,5 +1,5 @@
 import React from 'react'
-import {HashRouter, Route, Switch} from 'react-router-dom'
+import {HashRouter, Route, Switch, Redirect} from 'react-router-dom'
 import App from './App'
 import Admin from './Admin'
 import Login from './pages/login'
@@ -70,6 +70,8 @@ export default class Router extends React.Component {
                   <Route path='/rich' component={Rich}/>
                   <Route path='/permission' component={Permission}/>
                   <Route path='/bikeMap' component={BikeMap}/>
+
+                  <Redirect to='/home' />
 
                   <Route component={NoMatch}/>
                 </Switch>
