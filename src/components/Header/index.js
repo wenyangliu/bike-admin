@@ -4,8 +4,10 @@ import './index.less'
 import utils from '../../utils'
 import axios from '../../axios'
 import config from '../../config'
+import {connect} from 'react-redux'
 
-export default class Header extends React.Component {
+class Header extends React.Component {
+  state = {}
   componentWillMount() {
     this.setState({
       userName: '文道诗洋',
@@ -48,7 +50,7 @@ export default class Header extends React.Component {
   }
 
   render() {
-    const menuType = this.props.menuType
+    const {menuName, menuType} = this.props
     return (
       <div className='header'>
         <Row className='header-top'>
@@ -69,7 +71,7 @@ export default class Header extends React.Component {
           menuType ? '' :
             <Row className='breadcrumb'>
               <Col span={4} className='breadcrumb-title'>
-                首页
+                {menuName || '首页'}
               </Col>
               <Col span={20} className='breadcrumb-right'>
                 <span className='date'>{this.state.sysTime}</span>
@@ -82,3 +84,9 @@ export default class Header extends React.Component {
     )
   }
 }
+const mapStateToProps = state => {
+  return {
+    menuName: state.menuName
+  }
+};
+export default connect(mapStateToProps)(Header)

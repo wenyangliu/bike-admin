@@ -3,10 +3,10 @@ import {Row, Col} from 'antd'
 import Header from './components/Header'
 import NavLeft from './components/NavLeft'
 import Footer from './components/Footer'
-// import Home from './pages/home'
 import './style/common.less'
+import {connect} from 'react-redux'
 
-export default class Admin extends React.Component {
+class Admin extends React.Component {
   render() {
     return (
       <Row className='container'>
@@ -24,3 +24,5 @@ export default class Admin extends React.Component {
     )
   }
 }
+
+export default connect()(Admin)

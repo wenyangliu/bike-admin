@@ -63,3 +63,6 @@ public 目录下 index.html 直接引入 script
 
 ### 使用富文本
 `yarn add braft-editor`
+
+### Redux 使用
+`yarn add redux react-redux redux-devtools-extension`

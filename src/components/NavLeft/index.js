@@ -3,15 +3,36 @@ import {Menu} from 'antd'
 import {NavLink} from 'react-router-dom'
 import MenuConfig from '../../config/menuConfig'
 import './index.less'
+import {switchMenu} from "../../redux/action";
+import {connect} from 'react-redux'
 const SubMenu = Menu.SubMenu
 
-export default class NavLeft extends React.Component {
+class NavLeft extends React.Component {
+  state = {currentKey: ''}
   componentWillMount(){
     const menuTreeNode = this.renderMenu(MenuConfig)
     this.setState({
-      menuTreeNode
+      menuTreeNode,
+      currentKey: window.location.hash.replace(/#/g, '')
     })
   }
+  handleClick = ({item, key}) => {
+    if (key === this.state.currentKey) return false
+    const {dispatch} = this.props
+    dispatch(switchMenu(item.props.title))
+    this.setState({
+      currentKey: key
+    })
+  }
+
+  handleHomeClick = () => {
+    const {dispatch} = this.props
+    dispatch(switchMenu('首页'))
+    this.setState({
+      currentKey: ''
+    })
+  }
+
   // 菜单渲染
   renderMenu = (data) => {
     return data.map(item => {
@@ -22,7 +43,7 @@ export default class NavLeft extends React.Component {
           </SubMenu>
         )
       }
-      return <Menu.Item key={item.key}>
+      return <Menu.Item key={item.key} title={item.title}>
         <NavLink to={item.key}>{item.title}</NavLink>
       </Menu.Item>
     })
@@ -31,14 +52,23 @@ export default class NavLeft extends React.Component {
   render() {
     return (
       <div className="nav_left">
-        <div className='logo'>
-          <img src="/assets/logo-ant.svg" alt=""/>
-          <h2>Bike Admin</h2>
-        </div>
-        <Menu theme='dark'>
+        <NavLink to='/home' onClick={this.handleHomeClick}>
+          <div className='logo'>
+            <img src="/assets/logo-ant.svg" alt=""/>
+            <h2>Bike Admin</h2>
+          </div>
+        </NavLink>
+
+        <Menu
+          theme='dark'
+          selectedKeys={this.state.currentKey}
+          onClick={this.handleClick}
+        >
           {this.state.menuTreeNode}
         </Menu>
       </div>
     )
   }
 }
+
+export default connect()(NavLeft)
