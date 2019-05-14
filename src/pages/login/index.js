@@ -28,14 +28,14 @@ export default class Login extends React.Component {
                     {this.state.errorMsg}
                   </div>
                 </div>
-                <div className="title">欢迎您</div>
+                <div className="title">登录</div>
                 <LoginForm ref="login" loginSubmit={this.loginReq}></LoginForm>
               </div>
             </div>
           </div>
         </div>
 
-        <Footer/>
+        <Footer loginType='login'/>
       </div>
     )
   }

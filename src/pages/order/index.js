@@ -1,10 +1,9 @@
 import React from 'react'
 import {Card, Button, Table, Modal, Form, message} from 'antd'
 import BaseForm from '../../components/BaseForm/index'
-import utils from '../../utils'
 import axios from '../../axios'
 import {formList} from './filterList'
-import {columns} from "./cloumns"
+import {columns} from "./columns"
 const FormItem = Form.Item
 
 export default class Order extends React.Component {
@@ -88,25 +87,7 @@ export default class Order extends React.Component {
   }
 
   requestList = () => {
-    let _this = this
-    axios.ajax({
-      url: '/order/list',
-      data: {
-        params: this.params
-      }
-    }).then(res => {
-      let list = res.result.list.map((item, index) => {
-        item.key = index
-        return item
-      })
-      this.setState({
-        list,
-        pagination: utils.pagination(res, (current) => {
-          _this.params.page = current
-          _this.requestList()
-        })
-      })
-    })
+    axios.requestList(this, '/order/list')
   }
 
   render() {

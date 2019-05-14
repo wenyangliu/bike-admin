@@ -1,6 +1,7 @@
 import JsonP from 'jsonp'
 import axios from 'axios'
 import {Modal} from 'antd'
+import utils from "./utils";
 const baseUrl = 'https://easy-mock.com/mock/5cca3e9748225f49a0e042e4/api'
 
 export default class Axios {
@@ -16,6 +17,26 @@ export default class Axios {
     })
   }
 
+  static requestList(_this, url) {
+    this.ajax({
+      url,
+      data: {
+        params: _this.params
+      }
+    }).then(res => {
+      let list = res.result.list.map((item, index) => {
+        item.key = index
+        return item
+      })
+      _this.setState({
+        list,
+        pagination: utils.pagination(res, (current) => {
+          _this.params.page = current
+          _this.requestList()
+        })
+      })
+    })
+  }
 
   static ajax(options) {
     let loading

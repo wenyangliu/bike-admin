@@ -1,9 +1,9 @@
 import React from 'react'
 import {Card, Button, Table, Modal} from 'antd'
 import CardFilter from './filter'
-import utils from '../../utils'
 import axios from '../../axios'
 import UserForm from './form'
+import {columns} from './columns'
 
 
 export default class User extends React.Component {
@@ -12,7 +12,6 @@ export default class User extends React.Component {
   handleOperator = (type) => {
     const _this = this
     const item = this.state.selectedItem
-    console.log(item)
     if (type === 'create') {
       this.setState({
         title: '创建员工',
@@ -68,14 +67,16 @@ export default class User extends React.Component {
       }
     }).then(res => {
       this.setState({
-        visible: false
+        visible: false,
+        selectedRowKeys: [],
+        selectedItem: ''
       })
       this.requestList()
+      this.userForm.props.form.resetFields()
     })
   }
 
   onRowClick = (record, index) => {
-    console.log(record, index)
     this.setState({
       selectedRowKeys: [index],
       selectedItem: record
@@ -87,54 +88,10 @@ export default class User extends React.Component {
   }
 
   requestList = () => {
-    let _this = this
-    axios.ajax({
-      url: '/user/list',
-      data: {
-        params: this.params.page
-      }
-    }).then(res => {
-      let list = res.result.list.map((item, index) => {
-        item.key = index
-        return item
-      })
-      this.setState({
-        list,
-        pagination: utils.pagination(res, (current) => {
-          _this.params.page = current
-          _this.requestList()
-        })
-      })
-    })
+    axios.requestList(this, '/user/list')
   }
 
   render() {
-    const columns = [
-      {
-        title: 'id',
-        dataIndex: 'id'
-      }, {
-        title: '用户名',
-        dataIndex: 'name'
-      }, {
-        title: '性别',
-        dataIndex: 'sex'
-      },
-      {
-        title: '状态',
-        dataIndex: 'status'
-      },
-      {
-        title: '爱好',
-        dataIndex: 'hobby'
-      }, {
-        title: '生日',
-        dataIndex: 'birthday'
-      }, {
-        title: '联系地址',
-        dataIndex: 'address',
-      }
-    ]
     const rowSelection = {
       type: 'radio',
       selectedRowKeys: this.state.selectedRowKeys

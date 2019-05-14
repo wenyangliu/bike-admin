@@ -18,7 +18,6 @@ export default class BikeMap extends React.Component {
       url: '/map/bike_list',
       data: {params: this.params}
     }).then(res => {
-      console.log(res)
       this.setState({
         total_count: res.result.total_count
       })

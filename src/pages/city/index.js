@@ -1,11 +1,10 @@
 import React from 'react'
 import {Card, Button, Table, Modal, message} from 'antd'
-import utils from '../../utils'
 import axios from '../../axios'
 import CityForm from './form'
 import BaseForm from '../../components/BaseForm'
 import {formList} from './filterList'
-import {columns} from './cloumns'
+import {columns} from './columns'
 
 export default class City extends React.Component {
   state = {list: [], isShowOpenCity: false}
@@ -35,6 +34,7 @@ export default class City extends React.Component {
           isShowOpenCity:false
         })
         this.requestList();
+        this.formRef.props.form.resetFields() // 置空
       }
     })
   }
@@ -48,25 +48,7 @@ export default class City extends React.Component {
   }
 
   requestList = () => {
-    let _this = this
-    axios.ajax({
-      url: '/open_city',
-      data: {
-        params: this.params
-      }
-    }).then(res => {
-      let list = res.result.list.map((item, index) => {
-        item.key = index
-        return item
-      })
-      this.setState({
-        list,
-        pagination: utils.pagination(res, (current) => {
-          _this.params.page = current
-          _this.requestList()
-        })
-      })
-    })
+    axios.requestList(this, '/open_city')
   }
 
   render() {
